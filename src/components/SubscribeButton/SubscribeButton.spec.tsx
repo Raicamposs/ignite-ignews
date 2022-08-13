@@ -1,10 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import { mocked } from 'ts-jest/utils'
-import { signIn, useSession } from 'next-auth/client'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { mocked } from 'ts-jest/utils'
 import { SubscribeButton } from '.'
 
-jest.mock('next-auth/client');
+jest.mock('next-auth/react');
 jest.mock('next/router');
 
 describe('SubscribeButton component', () => {
@@ -39,14 +39,14 @@ describe('SubscribeButton component', () => {
     const pushMock = jest.fn()
 
     useSessionMocked.mockReturnValueOnce([
-      { 
-        user: { 
-          name: 'John Doe', 
-          email: 'john.doe@example.com' 
-        }, 
+      {
+        user: {
+          name: 'John Doe',
+          email: 'john.doe@example.com'
+        },
         activeSubscription: 'fake-active-subscription',
-        expires: 'fake-expires' 
-      }, 
+        expires: 'fake-expires'
+      },
       false
     ])
 

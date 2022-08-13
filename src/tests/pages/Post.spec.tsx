@@ -1,17 +1,17 @@
-import { render, screen } from '@testing-library/react'
-import { getSession } from 'next-auth/client';
-import { mocked } from 'ts-jest/utils'
+import { render, screen } from '@testing-library/react';
+import { getSession } from 'next-auth/react';
+import { mocked } from 'ts-jest/utils';
 import Post, { getServerSideProps } from '../../pages/posts/[slug]';
-import { getPrismicClient } from '../../services/prismic'
+import { getPrismicClient } from '../../services/prismic';
 
-const post = { 
-  slug: 'my-new-post', 
-  title: 'My New Post', 
-  content: '<p>Post excerpt</p>', 
+const post = {
+  slug: 'my-new-post',
+  title: 'My New Post',
+  content: '<p>Post excerpt</p>',
   updatedAt: '10 de Abril'
 };
 
-jest.mock('next-auth/client');
+jest.mock('next-auth/react');
 jest.mock('../../services/prismic')
 
 describe('Post page', () => {
@@ -24,11 +24,11 @@ describe('Post page', () => {
 
   it('redirects user if no subscription is found', async () => {
     const getSessionMocked = mocked(getSession)
-    
+
     getSessionMocked.mockResolvedValueOnce(null)
 
-    const response = await getServerSideProps({ 
-      params: { slug: 'my-new-post'} 
+    const response = await getServerSideProps({
+      params: { slug: 'my-new-post' }
     } as any)
 
     expect(response).toEqual(
@@ -52,7 +52,7 @@ describe('Post page', () => {
           ],
           content: [
             { type: 'paragraph', text: 'Post content' }
-          ], 
+          ],
         },
         last_publication_date: '04-01-2021'
       })
@@ -62,8 +62,8 @@ describe('Post page', () => {
       activeSubscription: 'fake-active-subscription'
     } as any);
 
-    const response = await getServerSideProps({ 
-      params: { slug: 'my-new-post'} 
+    const response = await getServerSideProps({
+      params: { slug: 'my-new-post' }
     } as any)
 
     expect(response).toEqual(

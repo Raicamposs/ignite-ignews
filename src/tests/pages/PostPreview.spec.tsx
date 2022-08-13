@@ -1,18 +1,18 @@
-import { render, screen } from '@testing-library/react'
-import { useSession } from 'next-auth/client';
+import { render, screen } from '@testing-library/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { mocked } from 'ts-jest/utils'
+import { mocked } from 'ts-jest/utils';
 import Post, { getStaticProps } from '../../pages/posts/preview/[slug]';
-import { getPrismicClient } from '../../services/prismic'
+import { getPrismicClient } from '../../services/prismic';
 
-const post = { 
-  slug: 'my-new-post', 
-  title: 'My New Post', 
-  content: '<p>Post excerpt</p>', 
+const post = {
+  slug: 'my-new-post',
+  title: 'My New Post',
+  content: '<p>Post excerpt</p>',
   updatedAt: '10 de Abril'
 };
 
-jest.mock('next-auth/client');
+jest.mock('next-auth/react');
 jest.mock('next/router');
 jest.mock('../../services/prismic')
 
@@ -35,7 +35,7 @@ describe('Post preview page', () => {
     const pushMock = jest.fn()
 
     useSessionMocked.mockReturnValueOnce([
-      { activeSubscription: 'fake-active-subscription' }, 
+      { activeSubscription: 'fake-active-subscription' },
       false
     ] as any)
 
@@ -59,13 +59,13 @@ describe('Post preview page', () => {
           ],
           content: [
             { type: 'paragraph', text: 'Post content' }
-          ], 
+          ],
         },
         last_publication_date: '04-01-2021'
       })
     } as any)
 
-    const response = await getStaticProps({ params: { slug: 'my-new-post'} })
+    const response = await getStaticProps({ params: { slug: 'my-new-post' } })
 
     expect(response).toEqual(
       expect.objectContaining({
